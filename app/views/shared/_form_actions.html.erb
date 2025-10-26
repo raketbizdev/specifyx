@@ -1,0 +1,16 @@
+<%# locals: primary_label:, secondary: (optional content), button_html: {} %>
+<div class="mt-6">
+  <%= f.submit(
+        primary_label,
+        { class: "inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-2.5
+                  text-white font-medium shadow hover:bg-indigo-700 focus:outline-none
+                  focus:ring-2 focus:ring-indigo-500 active:bg-indigo-800" }
+          .merge(defined?(button_html) && button_html.is_a?(Hash) ? button_html : {})
+      ) %>
+
+  <% if content_for?(:secondary_actions) %>
+    <div class="mt-4">
+      <%= yield :secondary_actions %>
+    </div>
+  <% end %>
+</div>

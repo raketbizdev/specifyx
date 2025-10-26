@@ -1,0 +1,18 @@
+<%= turbo_stream.append "company-list" do %>
+  <%= render partial: (params[:view].presence_in(%w[list grid]) == "list" ? "company_row" : "company_card"),
+             collection: @companies, as: :company %>
+<% end %>
+
+<%= turbo_stream.replace "pager" do %>
+  <% next_url = @next_page ? company_listings_path(request.query_parameters.merge(page: @next_page, format: :turbo_stream)) : nil %>
+  <div id="pager" data-controller="infinite-scroll">
+    <% if @next_page %>
+      <a id="companies-load-more" href="<%= next_url %>" class="hidden">Next</a>
+      <div data-infinite-scroll-target="sentinel" class="mt-8 flex justify-center">
+        <div class="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
+      </div>
+    <% else %>
+      <div class="mt-10 text-center text-xs text-slate-500">No more companies</div>
+    <% end %>
+  </div>
+<% end %>

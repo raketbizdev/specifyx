@@ -1,0 +1,168 @@
+<% content_for :title, @job.title %>
+
+<div class="mx-auto max-w-6xl px-4 py-8">
+  <!-- Header -->
+  <div class="flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <%= link_to jobs_path,
+          class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                  px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                  font-medium text-slate-700 hover:bg-slate-50" do %>
+        <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">arrow_back</span>
+        <span>Back</span>
+      <% end %>
+
+      <h1 class="text-2xl font-semibold text-slate-900"><%= @job.title %></h1>
+    </div>
+
+    <% owner = current_user&.admin? || (@job.company.user_id == current_user&.id) %>
+    <div class="flex items-center gap-2">
+      <% if owner %>
+        <%= link_to job_job_applications_path(@job),
+            class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                    px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                    font-medium text-slate-800 hover:bg-slate-50" do %>
+          <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">inbox</span>
+          <span>Applications</span>
+        <% end %>
+
+        <%= link_to edit_job_path(@job),
+            class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                    px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                    font-medium text-slate-800 hover:bg-slate-50" do %>
+          <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">edit</span>
+          <span>Edit</span>
+        <% end %>
+
+        <%= button_to job_path(@job),
+              method: :delete,
+              data: { turbo_confirm: "Delete “#{@job.title}”? This cannot be undone." },
+              form: { class: "inline" },
+              class: "inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50
+                      px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                      font-medium text-red-700 hover:bg-red-100" do %>
+          <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">delete</span>
+          <span>Delete</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Meta row -->
+  <div class="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+    <%= link_to company_path(@job.company),
+        class: "inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-2.5 py-1 hover:bg-slate-50" do %>
+      <span class="material-symbols-rounded text-sm" aria-hidden="true">apartment</span>
+      <span><%= @job.company.name %></span>
+    <% end %>
+
+    <% if @job.location.present? %>
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-2.5 py-1">
+        <span class="material-symbols-rounded text-sm" aria-hidden="true">location_on</span>
+        <span><%= @job.location %></span>
+      </span>
+    <% end %>
+
+    <% if @job.employment_type.present? %>
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-2.5 py-1">
+        <span class="material-symbols-rounded text-sm" aria-hidden="true">schedule</span>
+        <span><%= @job.employment_type %></span>
+      </span>
+    <% end %>
+  </div>
+
+  <!-- Description -->
+  <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <% if @job.description.present? %>
+      <div class="prose prose-slate max-w-none">
+        <%= simple_format(@job.description) %>
+      </div>
+    <% else %>
+      <p class="text-sm text-slate-500">No description provided.</p>
+    <% end %>
+
+    <div class="mt-4 text-xs text-slate-500">
+      <span>Posted <%= time_ago_in_words(@job.created_at) %> ago</span>
+      ·
+      <span>Updated <%= time_ago_in_words(@job.updated_at) %> ago</span>
+    </div>
+  </div>
+
+  <!-- Apply / Withdraw -->
+  <% unless owner %>
+    <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <% if user_signed_in? %>
+        <% my_app = @job.job_applications.find_by(user_id: current_user.id) %>
+
+        <% if my_app.present? %>
+          <div class="flex flex-col gap-3">
+            <div class="inline-flex items-center gap-1.5 text-slate-700">
+              <span class="material-symbols-rounded text-base" aria-hidden="true">check_circle</span>
+              <span class="font-medium">You’ve already applied.</span>
+              <span class="text-slate-500 text-sm">(Status: <%= my_app.status.humanize %>)</span>
+            </div>
+
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 whitespace-pre-line">
+              <%= my_app.cover_letter %>
+            </div>
+
+            <div>
+              <%= button_to job_job_application_path(@job, my_app),
+                    method: :delete,
+                    data: { turbo_confirm: "Withdraw your application?" },
+                    form: { class: "inline" },
+                    class: "inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50
+                            px-4 py-2 text-sm sm:px-2.5 sm:py-1.5
+                            font-medium text-red-700 hover:bg-red-100" do %>
+                <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">cancel</span>
+                <span>Withdraw Application</span>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <h2 class="text-lg font-semibold text-slate-900">Apply for this job</h2>
+          <p class="mt-1 text-sm text-slate-600">Tell the team why you’re a great fit.</p>
+
+          <%= form_with url: job_job_applications_path(@job), method: :post, class: "mt-4 space-y-4" do |f| %>
+            <div>
+              <label class="block text-sm font-medium text-slate-700">Cover letter</label>
+              <%= text_area_tag "job_application[cover_letter]", nil,
+                    required: true, rows: 8,
+                    placeholder: "Brief intro, relevant experience, links to GitHub/portfolio, availability…",
+                    class: "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <%= link_to job_path(@job),
+                  class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                          px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                          font-medium text-slate-700 hover:bg-slate-50" do %>
+                <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">close</span>
+                <span>Cancel</span>
+              <% end %>
+
+              <button type="submit"
+                      class="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600
+                             px-4 py-2 text-sm sm:px-2.5 sm:py-1.5
+                             font-semibold text-white hover:bg-indigo-700">
+                <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">send</span>
+                <span>Submit Application</span>
+              </button>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-slate-700">Sign in to apply for this job.</p>
+          <%= link_to new_user_session_path,
+              class: "inline-flex items-center gap-1.5 rounded-lg bg-indigo-600
+                      px-4 py-2 text-sm sm:px-2.5 sm:py-1.5
+                      font-semibold text-white hover:bg-indigo-700" do %>
+            <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">login</span>
+            <span>Sign in</span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

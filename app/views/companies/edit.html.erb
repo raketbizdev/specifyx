@@ -1,0 +1,44 @@
+<% content_for :title, "Edit Company" %>
+
+<div class="mx-auto max-w-3xl px-4 py-8">
+  <!-- Header bar -->
+  <div class="flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <%= link_to companies_path,
+          class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                  px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                  font-medium text-slate-700 hover:bg-slate-50" do %>
+        <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">arrow_back</span>
+        <span>Back</span>
+      <% end %>
+
+      <h1 class="text-2xl font-semibold text-slate-900">Edit Company</h1>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <%= link_to @company,
+          class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                  px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                  font-medium text-slate-800 hover:bg-slate-50" do %>
+        <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">visibility</span>
+        <span>View</span>
+      <% end %>
+
+      <%= button_to company_path(@company),
+            method: :delete,
+            data: { turbo_confirm: "Delete #{@company.name}? This cannot be undone." },
+            form: { class: "inline" },
+            class: "inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50
+                    px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                    font-medium text-red-700 hover:bg-red-100" do %>
+        <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">delete</span>
+        <span>Delete</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <%= render "form", company: @company %>
+  </div>
+</div>

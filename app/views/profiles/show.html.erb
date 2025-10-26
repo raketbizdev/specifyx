@@ -1,0 +1,92 @@
+<div class="max-w-3xl mx-auto px-4 py-8 space-y-8">
+
+  <header class="space-y-1">
+    <h1 class="text-2xl font-semibold text-gray-900">
+      <%= @profile.display_name.presence || "Your Profile" %>
+    </h1>
+    <p class="text-gray-600 text-sm">
+      <%= @profile.headline.presence || "Add a headline to tell people what you do." %>
+    </p>
+  </header>
+
+  <section class="space-y-2">
+    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">About</div>
+    <div class="text-sm text-gray-800 whitespace-pre-line">
+      <%= @profile.summary.presence || "No summary yet." %>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-800">
+    <div class="space-y-2">
+      <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Location</div>
+      <div>
+        <%= [@profile.location_city, @profile.location_country].compact_blank.join(", ").presence || "—" %>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Work Setup</div>
+      <div class="text-gray-800">
+        <% if @profile.open_to_remote %>
+          <div>✅ Open to remote work</div>
+        <% else %>
+          <div>❌ Not open to remote work</div>
+        <% end %>
+
+        <% if @profile.open_to_relocation %>
+          <div>✅ Open to relocate</div>
+        <% else %>
+          <div>❌ Not open to relocate</div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Target Role</div>
+      <div>
+        <div><%= @profile.desired_role_primary.presence || "—" %></div>
+        <div class="text-gray-500"><%= @profile.desired_role_secondary.presence %></div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Availability</div>
+      <div>
+        <div><%= @profile.availability_status.presence || "—" %></div>
+        <% if @profile.available_from.present? %>
+          <div class="text-gray-500 text-xs">
+            Available from <%= @profile.available_from %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="space-y-2 text-sm text-gray-800">
+    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Links</div>
+    <ul class="list-disc list-inside space-y-1">
+      <% if @profile.linkedin_url.present? %>
+        <li>LinkedIn: <%= @profile.linkedin_url %></li>
+      <% end %>
+      <% if @profile.github_url.present? %>
+        <li>GitHub: <%= @profile.github_url %></li>
+      <% end %>
+      <% if @profile.portfolio_url.present? %>
+        <li>Portfolio: <%= @profile.portfolio_url %></li>
+      <% end %>
+      <% if @profile.website_url.present? %>
+        <li>Website: <%= @profile.website_url %></li>
+      <% end %>
+    </ul>
+    <% if !@profile.linkedin_url.present? && !@profile.github_url.present? && !@profile.portfolio_url.present? && !@profile.website_url.present? %>
+      <div class="text-gray-500 text-sm">No links added.</div>
+    <% end %>
+  </section>
+
+  <div class="pt-6">
+    <%= link_to "Edit Profile",
+      edit_profile_path,
+      class: "inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow
+              hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" %>
+  </div>
+</div>

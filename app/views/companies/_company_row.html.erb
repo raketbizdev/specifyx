@@ -1,0 +1,53 @@
+<%# locals: company %>
+<div class="px-5 py-4 hover:bg-slate-50 transition">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div class="min-w-0">
+      <div class="flex items-center gap-2">
+        <h3 class="truncate text-base font-semibold text-slate-900">
+          <%= link_to company_path(company), class: "hover:underline" do %>
+            <%= company.name %>
+          <% end %>
+        </h3>
+
+        <% if company.website.present? %>
+          <% raw_url = company.website.to_s.strip %>
+          <% href    = raw_url =~ /\Ahttps?:\/\//i ? raw_url : "https://#{raw_url}" %>
+          <% host    = (URI.parse(href).host rescue raw_url) %>
+          <%= link_to href, target: "_blank", rel: "noopener", class: "shrink-0 inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-slate-600 ring-1 ring-slate-200 hover:bg-white" do %>
+            <span class="material-symbols-rounded text-xs" aria-hidden="true">open_in_new</span>
+            <span class="truncate max-w-[12rem]"><%= host %></span>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if company.description.present? %>
+        <p class="mt-1 line-clamp-2 text-sm text-slate-600"><%= company.description %></p>
+      <% end %>
+
+      <div class="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+        <span class="inline-flex items-center gap-1 rounded-md border border-slate-200 px-2 py-0.5">
+          <span class="material-symbols-rounded text-xs" aria-hidden="true">work</span>
+          <%= pluralize((company[:jobs_count] || 0), "job") %>
+        </span>
+        <span class="inline-flex items-center gap-1 rounded-md border border-slate-200 px-2 py-0.5">
+          <span class="material-symbols-rounded text-xs" aria-hidden="true">schedule</span>
+          Updated <%= time_ago_in_words(company.updated_at) %> ago
+        </span>
+      </div>
+    </div>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <%= link_to company_path(company),
+          class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-800 hover:bg-white" do %>
+        <span class="material-symbols-rounded text-sm" aria-hidden="true">visibility</span>
+        <span>View</span>
+      <% end %>
+
+      <%= link_to company_path(company, anchor: "jobs"),
+          class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-800 hover:bg-white" do %>
+        <span class="material-symbols-rounded text-sm" aria-hidden="true">work</span>
+        <span>Open roles</span>
+      <% end %>
+    </div>
+  </div>
+</div>

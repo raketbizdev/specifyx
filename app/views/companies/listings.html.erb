@@ -1,0 +1,135 @@
+<% content_for :title, "Company Listings" %>
+<% view_mode = params[:view].presence_in(%w[grid list]) || "grid" %>
+
+<!-- HERO / SEARCH -->
+<section class="relative w-full overflow-hidden bg-white">
+  <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-gradient-to-tr from-indigo-400 to-fuchsia-400 opacity-20 blur-3xl"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-cyan-300 to-emerald-400 opacity-20 blur-3xl"></div>
+  <div aria-hidden="true" class="absolute inset-0 [background-image:linear-gradient(to_right,rgba(99,102,241,.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,.06)_1px,transparent_1px)]; [background-size:36px_36px]"></div>
+
+  <div class="relative max-w-6xl mx-auto px-4 py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl text-center">
+      <h1 class="mt-2 text-3xl sm:text-5xl font-semibold tracking-tight text-gray-900">
+        Discover hiring companies
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-gray-600">
+        Explore tech teams across PH & beyond. Check profiles, sites, and open roles.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-8 max-w-4xl rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
+      <%= form_with url: company_listings_path, method: :get, local: true do %>
+        <input type="hidden" name="view" value="<%= view_mode %>">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="sm:col-span-2">
+            <label for="q" class="block text-sm font-medium text-slate-700">Keywords</label>
+            <div class="relative">
+              <span class="material-symbols-rounded pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-base text-slate-400">search</span>
+              <input id="q" type="search" name="q" value="<%= params[:q] %>" placeholder="e.g., fintech, startup, rails"
+                     class="mt-1 w-full rounded-xl border border-slate-300 bg-white pl-8 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Filters</label>
+            <label class="mt-2 inline-flex items-center gap-2 text-sm text-slate-700">
+              <input type="checkbox" name="has_jobs" value="1" <%= "checked" if params[:has_jobs] == "1" %>
+                     class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+              <span>Has open jobs</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center justify-end gap-2">
+          <% if params[:q].present? || params[:has_jobs] == "1" %>
+            <%= link_to "Reset",
+                company_listings_path(view: view_mode),
+                class: "inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50" %>
+          <% end %>
+          <button type="submit"
+                  class="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
+            <span class="material-symbols-rounded text-sm" aria-hidden="true">tune</span>
+            <span>Apply Filters</span>
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS BAND -->
+<section class="relative w-full bg-sky-50">
+  <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 py-10">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-lg font-semibold text-slate-900">
+        Results <span class="ml-1 text-slate-600 font-normal">(<%= @total_count %>)</span>
+      </h2>
+
+      <div class="flex items-center gap-3">
+        <% if params[:q].present? || params[:has_jobs] == "1" %>
+          <div class="hidden sm:flex flex-wrap items-center gap-2 text-xs">
+            <% if params[:q].present? %>
+              <span class="inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-slate-700 ring-1 ring-slate-200">
+                <span class="material-symbols-rounded text-sm">search</span><%= params[:q] %>
+              </span>
+            <% end %>
+            <% if params[:has_jobs] == "1" %>
+              <span class="inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-slate-700 ring-1 ring-slate-200">
+                <span class="material-symbols-rounded text-sm">work</span>Has open jobs
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="inline-flex items-center rounded-lg bg-white p-1 ring-1 ring-slate-200">
+          <%= link_to company_listings_path(request.query_parameters.merge(view: "grid", page: nil)),
+                      class: "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm " \
+                             "#{view_mode == 'grid' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'}" do %>
+            <span class="material-symbols-rounded text-base" aria-hidden="true">grid_view</span>
+            <span class="sr-only">Grid</span>
+          <% end %>
+          <%= link_to company_listings_path(request.query_parameters.merge(view: "list", page: nil)),
+                      class: "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm " \
+                             "#{view_mode == 'list' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-50'}" do %>
+            <span class="material-symbols-rounded text-base" aria-hidden="true">view_list</span>
+            <span class="sr-only">List</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if @companies.blank? %>
+      <div class="mt-6 rounded-2xl bg-white p-6 text-slate-700 ring-1 ring-slate-200">
+        <p class="text-sm">No companies matched your filters.</p>
+        <ul class="mt-2 text-sm list-disc pl-5 text-slate-600 space-y-1">
+          <li>Try broader keywords.</li>
+          <li>Clear “Has open jobs”.</li>
+        </ul>
+      </div>
+    <% else %>
+      <% if view_mode == "list" %>
+        <div id="company-list" class="mt-6 divide-y divide-slate-200 rounded-2xl bg-white ring-1 ring-slate-200">
+          <%= render partial: "company_row", collection: @companies, as: :company %>
+        </div>
+      <% else %>
+        <div id="company-list" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <%= render partial: "company_card", collection: @companies, as: :company %>
+        </div>
+      <% end %>
+
+      <% next_url = @next_page ? company_listings_path(request.query_parameters.merge(page: @next_page, format: :turbo_stream)) : nil %>
+      <div id="pager" data-controller="infinite-scroll">
+        <% if @next_page %>
+          <a id="companies-load-more" href="<%= next_url %>" class="hidden">Next</a>
+          <div data-infinite-scroll-target="sentinel" class="mt-8 flex justify-center">
+            <div class="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
+          </div>
+        <% else %>
+          <div class="mt-10 text-center text-xs text-slate-500">No more companies</div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

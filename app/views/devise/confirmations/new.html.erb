@@ -1,0 +1,41 @@
+<%= render "shared/auth_card", title: "Resend confirmation instructions" do %>
+  <%= form_for(resource,
+               as: resource_name,
+               url: confirmation_path(resource_name),
+               html: { method: :post, class: "space-y-2" }) do |f| %>
+
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= render "shared/form_input",
+               f: f,
+               field: :email,
+               type: :email_field,
+               label: "Email",
+               autocomplete: "email",
+               autofocus: true,
+               placeholder: "you@company.com",
+               input_html: {
+                 value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+               } %>
+
+    <%= render "shared/form_actions",
+               f: f,
+               primary_label: "Resend confirmation instructions" do %>
+      <% content_for :secondary_actions do %>
+        <div class="text-center text-sm">
+          <%= link_to "Back to Log in",
+              new_session_path(resource_name),
+              class: "text-indigo-600 hover:underline" %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% content_for :auth_footer do %>
+    <div class="text-sm text-gray-600 space-y-1">
+      <%= link_to "Didn’t receive unlock instructions?",
+                  new_unlock_path(resource_name),
+                  class: "text-indigo-600 hover:underline" %>
+    </div>
+  <% end %>
+<% end %>

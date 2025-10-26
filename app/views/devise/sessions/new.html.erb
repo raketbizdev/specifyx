@@ -1,0 +1,58 @@
+<%= render "shared/auth_card", title: "Welcome back" do %>
+  <%= form_for(resource,
+               as: resource_name,
+               url: session_path(resource_name),
+               html: { class: "space-y-2" }) do |f| %>
+
+    <%# (Optional) If you use the same error renderer %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= render "shared/form_input",
+               f: f,
+               field: :email,
+               type: :email_field,
+               label: "Email",
+               autocomplete: "email",
+               autofocus: true,
+               placeholder: "you@company.com" %>
+
+    <%= render "shared/form_input",
+               f: f,
+               field: :password,
+               type: :password_field,
+               label: "Password",
+               autocomplete: "current-password",
+               placeholder: "••••••••" %>
+
+    <% if devise_mapping.rememberable? %>
+      <%= render "shared/form_checkbox",
+                 f: f,
+                 field: :remember_me,
+                 label: "Remember me" %>
+    <% end %>
+
+    <%= render "shared/form_actions", f: f, primary_label: "Log in" do %>
+      <% content_for :secondary_actions do %>
+        <div class="flex items-center justify-between text-sm">
+          <%= link_to "Forgot your password?",
+              new_password_path(resource_name),
+              class: "text-indigo-600 hover:underline" %>
+          <%= link_to "Create an account",
+              new_registration_path(resource_name),
+              class: "text-gray-700 hover:underline" %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% content_for :auth_footer do %>
+    <div class="text-sm text-gray-600 space-y-1">
+      <%= link_to "Didn’t receive confirmation instructions?",
+                  new_confirmation_path(resource_name),
+                  class: "text-indigo-600 hover:underline" %><br>
+      <%= link_to "Didn’t receive unlock instructions?",
+                  new_unlock_path(resource_name),
+                  class: "text-indigo-600 hover:underline" %>
+    </div>
+  <% end %>
+<% end %>

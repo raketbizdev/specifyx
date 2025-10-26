@@ -1,0 +1,335 @@
+<%= form_with model: profile,
+              url: profile_path,
+              method: profile.persisted? ? :put : :post,
+              class: "space-y-8" do |f| %>
+
+  <!-- SECTION: Basic identity / branding -->
+  <section class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Display name</label>
+      <%= f.text_field :display_name,
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      <p class="mt-1 text-xs text-gray-500">
+        This is the name shown on your talent card. (You can hide full legal name.)
+      </p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Headline</label>
+      <%= f.text_field :headline,
+        placeholder: "DevSecOps Lead · Cloud Security · DORA Metrics",
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      <p class="mt-1 text-xs text-gray-500">
+        Short pitch (like a LinkedIn headline).
+      </p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">About / Summary</label>
+      <%= f.text_area :summary,
+        rows: 4,
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      <p class="mt-1 text-xs text-gray-500">
+        Who you are, what you do, what impact you deliver.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION: Links / presence -->
+  <section class="space-y-4">
+    <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Links</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Website</label>
+        <%= f.url_field :website_url,
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+        <%= f.url_field :linkedin_url,
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">GitHub</label>
+        <%= f.url_field :github_url,
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Portfolio / Case Studies</label>
+        <%= f.url_field :portfolio_url,
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Location / work setup -->
+  <section class="space-y-4">
+    <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Location & Work Setup</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">City</label>
+        <%= f.text_field :location_city,
+          placeholder: "Taguig",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Country</label>
+        <%= f.text_field :location_country,
+          placeholder: "Philippines",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex items-center space-x-2">
+        <%= f.check_box :open_to_remote,
+          class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <label class="text-sm font-medium text-gray-700">Open to remote work</label>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <%= f.check_box :open_to_relocation,
+          class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <label class="text-sm font-medium text-gray-700">Open to relocate</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Job targeting -->
+  <section class="space-y-4">
+    <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Job Target</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Primary desired role</label>
+        <%= f.text_field :desired_role_primary,
+          placeholder: "DevOps Engineer",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Secondary desired role</label>
+        <%= f.text_field :desired_role_secondary,
+          placeholder: "Platform Engineer",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Employment type</label>
+        <%= f.select :employment_type_preference,
+          ["Full-time", "Contract", "Freelance", "Internship", "Any"],
+          { include_blank: true },
+          class: "mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Min expected salary</label>
+        <%= f.number_field :min_salary_expectation,
+          placeholder: "150000",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+        <p class="mt-1 text-xs text-gray-500">Per month, gross.</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Currency</label>
+        <%= f.text_field :salary_currency,
+          placeholder: "PHP",
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Availability status</label>
+        <%= f.select :availability_status,
+          ["Active", "Passive", "Not Looking", "Unavailable"],
+          { include_blank: true },
+          class: "mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+        <p class="mt-1 text-xs text-gray-500">"Active" means you're looking now.</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Available from</label>
+        <%= f.date_field :available_from,
+          class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                  focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Public profile / visibility -->
+  <section class="space-y-4">
+    <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Visibility & Contact</h2>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Public handle (your profile URL)</label>
+      <%= f.text_field :public_handle,
+        placeholder: "ruel-nopal",
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      <p class="mt-1 text-xs text-gray-500">
+        Only lowercase letters, numbers, and dashes. Example: specifyx.com/t/ruel-nopal
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex items-center space-x-2">
+        <%= f.check_box :is_public,
+          class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <label class="text-sm font-medium text-gray-700">Profile is public</label>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <%= f.check_box :allow_contact,
+          class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <label class="text-sm font-medium text-gray-700">Allow recruiters to contact me</label>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <%= f.check_box :show_fullname,
+          class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <label class="text-sm font-medium text-gray-700">Show real name on public profile</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Experiences -->
+    <!-- SECTION: Work Experience -->
+  <section class="space-y-4">
+    <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wide flex items-center justify-between">
+      <span>Work Experience</span>
+      <!-- This button will be wired with JS to append a new blank experience fields block -->
+      <button type="button"
+              id="add-experience"
+              class="inline-flex items-center rounded-xl bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 shadow hover:bg-gray-200">
+        + Add Experience
+      </button>
+    </h2>
+
+    <div id="experience-list" class="space-y-4">
+      <%= f.fields_for :experiences do |xp_fields| %>
+        <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm space-y-4">
+
+          <!-- Job Title -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Job Title</label>
+            <%= xp_fields.text_field :job_title,
+              class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                      focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+          </div>
+
+          <!-- Company / Location -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Company</label>
+              <%= xp_fields.text_field :company_name,
+                class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                        focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Location</label>
+              <%= xp_fields.text_field :company_location,
+                placeholder: "Taguig · Remote",
+                class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                        focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            </div>
+          </div>
+
+          <!-- Employment Type -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Employment Type</label>
+            <%= xp_fields.select :employment_type,
+              ["Full-time", "Part-time", "Contract", "Freelance", "Internship", "Consultant", "Other"],
+              { include_blank: true },
+              class: "mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+                      focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+          </div>
+
+          <!-- Dates -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Start Date</label>
+              <%= xp_fields.date_field :start_date,
+                class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                        focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700">End Date</label>
+              <%= xp_fields.date_field :end_date,
+                class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                        focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+              <p class="mt-1 text-xs text-gray-500">Leave blank if current</p>
+            </div>
+          </div>
+
+          <!-- Current role checkbox -->
+          <div class="flex items-center space-x-2">
+            <%= xp_fields.check_box :is_current,
+              class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+            <label class="text-sm font-medium text-gray-700">This is my current role</label>
+          </div>
+
+          <!-- Impact / Achievements -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Impact / Achievements</label>
+            <%= xp_fields.text_area :impact_summary,
+              rows: 4,
+              placeholder: "- Reduced deployment time by 40%\n- Led adoption of DORA metrics across 6 countries",
+              class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                      focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            <p class="mt-1 text-xs text-gray-500">
+              Focus on measurable outcomes, not just duties.
+            </p>
+          </div>
+
+          <!-- Remove checkbox -->
+          <% if xp_fields.object.persisted? %>
+            <div class="flex items-center justify-end">
+              <label class="flex items-center text-sm text-red-600 space-x-2 cursor-pointer">
+                <%= xp_fields.check_box :_destroy,
+                  class: "rounded border-gray-300 text-red-600 focus:ring-red-500" %>
+                <span>Remove this experience</span>
+              </label>
+            </div>
+          <% end %>
+
+          <!-- Keep the id field so Rails knows which row to update -->
+          <%= xp_fields.hidden_field :id %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+
+  <!-- Submit -->
+  <div class="pt-4">
+    <%= f.submit "Save Profile",
+      class: "inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow
+              hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" %>
+  </div>
+<% end %>

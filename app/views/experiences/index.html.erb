@@ -1,0 +1,73 @@
+<div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900">Work Experience</h1>
+      <p class="text-sm text-gray-600">
+        Your roles, accomplishments, and impact.
+      </p>
+    </div>
+
+    <%= link_to "Add Experience",
+      new_profile_experience_path,
+      class: "inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow
+              hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" %>
+  </div>
+
+  <% if @experiences.any? %>
+    <ul class="divide-y divide-gray-200 bg-white rounded-xl shadow border border-gray-100">
+      <% @experiences.each do |xp| %>
+        <li class="p-4 space-y-1">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="text-sm font-semibold text-gray-900">
+                <%= xp.job_title %>
+              </div>
+              <div class="text-sm text-gray-700">
+                <%= xp.company_name %>
+                <% if xp.company_location.present? %>
+                  · <%= xp.company_location %>
+                <% end %>
+              </div>
+              <div class="text-xs text-gray-500">
+                <%= xp.employment_type.presence || "—" %>
+              </div>
+              <div class="text-xs text-gray-500">
+                <%= xp.start_date %> –
+                <%= xp.is_current ? "Present" : xp.end_date || "—" %>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <%= link_to "Edit",
+                edit_profile_experience_path(xp),
+                class: "text-xs text-indigo-600 hover:underline" %>
+
+              <%= button_to "Delete",
+                profile_experience_path(xp),
+                method: :delete,
+                data: { confirm: "Delete this experience?" },
+                class: "text-xs text-red-600 hover:underline" %>
+            </div>
+          </div>
+
+          <% if xp.impact_summary.present? %>
+            <div class="text-sm text-gray-700 whitespace-pre-line">
+              <%= xp.impact_summary %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-6 text-center text-sm text-gray-600">
+      No experience added yet.
+      <%= link_to "Add your first role", new_profile_experience_path, class: "text-indigo-600 hover:underline" %>
+    </div>
+  <% end %>
+
+  <div class="pt-4">
+    <%= link_to "Back to Profile",
+      profile_path,
+      class: "text-sm text-gray-600 hover:text-gray-900 hover:underline" %>
+  </div>
+</div>

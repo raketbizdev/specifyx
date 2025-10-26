@@ -1,0 +1,51 @@
+<%# Required locals: f:, field:
+    Optional locals: type: (Rails field helper, default :text_field)
+                     label:, placeholder:, autocomplete:, autofocus:, hint:, required:
+                     input_html: {} (merge extra html), container_class:
+%>
+<%
+  type            ||= :text_field
+  label_text      ||= field.to_s.humanize
+  input_base      = "block w-full rounded-xl border border-gray-300 bg-white px-3 py-2 shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                     placeholder:text-gray-400"
+  error_present   = f.object.errors[field].present?
+  input_classes   = [input_base, (error_present ? "border-red-400 focus:ring-red-500" : nil)].compact.join(" ")
+  container_class ||= ""
+  help_id         = "#{f.object_name}_#{field}_help"
+  error_id        = "#{f.object_name}_#{field}_errors"
+%>
+
+<div class="mb-4 <%= container_class %>">
+  <label class="mb-1 block text-sm font-medium text-gray-700" for="<%= "#{f.object_name}_#{field}" %>">
+    <%= label || label_text %>
+    <% if local_assigns[:required] %><span class="text-red-500">*</span><% end %>
+  </label>
+
+  <%= f.public_send(
+        type,
+        field,
+        {
+          class: input_classes,
+          placeholder: (defined?(placeholder) && placeholder),
+          autocomplete: (defined?(autocomplete) && autocomplete),
+          autofocus: (defined?(autofocus) && autofocus),
+          aria: {
+            describedby: [
+              (defined?(hint) && hint.present? ? help_id : nil),
+              (error_present ? error_id : nil)
+            ].compact.join(" ")
+          }
+        }.merge(defined?(input_html) && input_html.is_a?(Hash) ? input_html : {})
+      ) %>
+
+  <% if defined?(hint) && hint.present? %>
+    <p id="<%= help_id %>" class="mt-1 text-xs text-gray-500"><%= hint %></p>
+  <% end %>
+
+  <% if error_present %>
+    <p id="<%= error_id %>" class="mt-1 text-xs text-red-600">
+      <%= f.object.errors.full_messages_for(field).first %>
+    </p>
+  <% end %>
+</div>

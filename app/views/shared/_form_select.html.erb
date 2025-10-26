@@ -1,0 +1,84 @@
+<%# app/views/shared/_form_select.html.erb %>
+<%# Required locals: f:, field:
+    Optional locals:
+      label:                # Custom label text (default: field.humanize)
+      collection:           # e.g., [["Full-time","full_time"], ["Part-time","part_time"]]
+      grouped_collection:   # e.g., { "Asia" => [["PH","ph"],["SG","sg"]], "EU" => [["DE","de"]] }
+      include_blank: nil,   # true/"Select…"
+      prompt: nil,          # "Please choose…"
+      selected: nil,
+      disabled: nil,
+      multiple: false,
+      size: nil,
+      required: false,
+      hint: nil,
+      container_class: "",
+      input_html: {}        # extra HTML attrs (e.g., { data: { controller: "ts-select" } })
+%>
+<%
+  label_text      ||= field.to_s.humanize
+  container_class ||= ""
+  error_present     = f.object.errors[field].present?
+  help_id           = "#{f.object_name}_#{field}_help"
+  error_id          = "#{f.object_name}_#{field}_errors"
+
+  base_classes = "block w-full rounded-xl border bg-white px-3 py-2 shadow-sm " \
+                 "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+  input_classes = [
+    base_classes,
+    error_present ? "border-red-400 focus:ring-red-500" : "border-gray-300",
+    "placeholder:text-gray-400"
+  ].join(" ")
+
+  # Build Rails options/hash
+  options_hash = {}
+  options_hash[:include_blank] = include_blank if defined?(include_blank)
+  options_hash[:prompt]        = prompt        if defined?(prompt)
+  options_hash[:selected]      = selected      if defined?(selected) && !selected.nil?
+  options_hash[:disabled]      = disabled      if defined?(disabled) && !disabled.nil?
+
+  html_hash = {
+    class: input_classes,
+    multiple: (defined?(multiple) && multiple) || false,
+    size: (defined?(size) && size),
+    aria: {
+      describedby: [
+        (defined?(hint) && hint.present? ? help_id : nil),
+        (error_present ? error_id : nil)
+      ].compact.join(" ")
+    },
+    required: !!(defined?(required) && required)
+  }.merge(defined?(input_html) && input_html.is_a?(Hash) ? input_html : {})
+%>
+
+<div class="mb-4 <%= container_class %>">
+  <label class="mb-1 block text-sm font-medium <%= error_present ? 'text-red-700' : 'text-gray-700' %>"
+         for="<%= "#{f.object_name}_#{field}" %>">
+    <%= label || label_text %>
+    <% if defined?(required) && required %><span class="text-red-500">*</span><% end %>
+  </label>
+
+  <%# Support grouped <optgroup> OR flat collection %>
+  <% if defined?(grouped_collection) && grouped_collection.present? %>
+    <%# grouped_collection: { "Group A" => [["Label","val"], ...], "Group B" => [...] } %>
+    <%= f.select field,
+                 grouped_options_for_select(grouped_collection, options_hash[:selected], options_hash[:disabled]),
+                 options_hash.except(:selected, :disabled),
+                 html_hash %>
+  <% else %>
+    <%= f.select field,
+                 (defined?(collection) && collection) || [],
+                 options_hash,
+                 html_hash %>
+  <% end %>
+
+  <% if defined?(hint) && hint.present? %>
+    <p id="<%= help_id %>" class="mt-1 text-xs text-gray-500"><%= hint %></p>
+  <% end %>
+
+  <% if error_present %>
+    <p id="<%= error_id %>" class="mt-1 text-xs text-red-600">
+      <%= f.object.errors.full_messages_for(field).first %>
+    </p>
+  <% end %>
+</div>

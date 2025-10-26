@@ -1,0 +1,87 @@
+<%= form_with model: experience,
+              url: experience.persisted? ? profile_experience_path(experience) : profile_experiences_path,
+              method: experience.persisted? ? :put : :post,
+              class: "space-y-6" do |f| %>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Job Title</label>
+    <%= f.text_field :job_title,
+      class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+              focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Company</label>
+      <%= f.text_field :company_name,
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Location</label>
+      <%= f.text_field :company_location,
+        placeholder: "Taguig · Remote",
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Employment Type</label>
+    <%= f.select :employment_type,
+      ["Full-time", "Part-time", "Contract", "Freelance", "Internship", "Consultant", "Other"],
+      { include_blank: true },
+      class: "mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+              focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Start Date</label>
+      <%= f.date_field :start_date,
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">End Date</label>
+      <%= f.date_field :end_date,
+        class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+                focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500",
+        disabled: experience.is_current? %>
+      <p class="mt-1 text-xs text-gray-500">
+        Leave blank if current.
+      </p>
+    </div>
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <%= f.check_box :is_current,
+      class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500",
+      data: { action: "change->toggle-enddate#toggle" } %>
+    <label class="text-sm font-medium text-gray-700">This is my current role</label>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Impact / Achievements</label>
+    <%= f.text_area :impact_summary,
+      rows: 4,
+      placeholder: "- Reduced deployment time by 40%\n- Led adoption of DORA metrics across 6 countries",
+      class: "mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm
+              focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    <p class="mt-1 text-xs text-gray-500">
+      Think in terms of outcomes, not tasks.
+    </p>
+  </div>
+
+  <div class="pt-4 flex items-center gap-4">
+    <%= f.submit (experience.persisted? ? "Update Experience" : "Add Experience"),
+      class: "inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow
+              hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" %>
+
+    <%= link_to "Cancel",
+      profile_experiences_path,
+      class: "text-sm text-gray-600 hover:text-gray-900 hover:underline" %>
+  </div>
+<% end %>

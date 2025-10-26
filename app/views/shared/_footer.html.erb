@@ -1,0 +1,124 @@
+<!-- app/views/shared/_footer.html.erb -->
+<footer class="border-t bg-white">
+  <div class="mx-auto max-w-6xl px-4 py-12 grid gap-10 md:grid-cols-4">
+    <!-- Brand -->
+    <div>
+      <%= link_to root_path, class: "inline-flex items-center gap-2" do %>
+        <span class="sr-only">SpecifyX</span>
+        <span class="text-lg font-semibold tracking-tight text-slate-900">specifyX</span>
+      <% end %>
+      <p class="mt-3 text-sm text-slate-600">
+        The PH marketplace where tech companies and developers find their X—hire faster and grow careers.
+      </p>
+      <!-- Socials (replace href with your profiles) -->
+      <div class="mt-4 flex items-center gap-3 text-slate-500">
+        <div class="mt-4 flex items-center gap-2">
+          <!-- X / Twitter -->
+          <a href="#"
+             aria-label="Twitter / X"
+             class="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.482 11.24h-6.64l-5.2-6.81-5.95 6.81H1.708l7.73-8.84L1.25 2.25h6.82l4.7 6.18 5.474-6.18z"/>
+            </svg>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="#"
+             aria-label="LinkedIn"
+             class="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M4.98 3.5A2.5 2.5 0 0 1 7.5 6a2.5 2.5 0 1 1-2.52-2.5zM3 8.75h3.96V21H3zM9.5 8.75H13v1.67h.05c.49-.93 1.7-1.9 3.5-1.9 3.74 0 4.43 2.46 4.43 5.66V21H17V14.9c0-1.45-.03-3.32-2.02-3.32-2.02 0-2.33 1.58-2.33 3.22V21H9.5z"/>
+            </svg>
+          </a>
+
+          <!-- GitHub -->
+          <a href="#"
+             aria-label="GitHub"
+             class="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.8-.25.8-.56v-2.01c-3.26.71-3.95-1.57-3.95-1.57-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.74 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.6-.3-5.33-1.3-5.33-5.78 0-1.28.46-2.33 1.2-3.15-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.22 1.2a11.2 11.2 0 0 1 5.86 0c2.24-1.51 3.22-1.2 3.22-1.2.64 1.65.24 2.87.12 3.17.75.82 1.2 1.87 1.2 3.15 0 4.5-2.74 5.47-5.35 5.77.42.36.8 1.06.8 2.14v3.17c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5z"/>
+            </svg>
+          </a>
+
+          <!-- Facebook -->
+          <a href="#"
+             aria-label="Facebook"
+             class="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M22.675 0h-21.35C.595 0 0 .595 0 1.326v21.348C0 23.405.595 24 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.764v2.312h3.587l-.467 3.696h-3.12V24h6.116C23.406 24 24 23.405 24 22.674V1.326C24 .595 23.406 0 22.675 0z"/>
+            </svg>
+          </a>
+
+          <!-- YouTube -->
+          <a href="#"
+             aria-label="YouTube"
+             class="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M23.498 6.186a2.995 2.995 0 0 0-2.11-2.12C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.388.566a2.995 2.995 0 0 0-2.11 2.12C0 8.074 0 12 0 12s0 3.926.502 5.814a2.995 2.995 0 0 0 2.11 2.12C4.5 20.5 12 20.5 12 20.5s7.5 0 9.388-.566a2.995 2.995 0 0 0 2.11-2.12C24 15.926 24 12 24 12s0-3.926-.502-5.814zM9.75 15.5v-7l6 3.5-6 3.5z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Employers -->
+    <div>
+      <h3 class="text-sm font-semibold text-slate-900">For Employers</h3>
+      <ul class="mt-3 space-y-2 text-sm text-slate-600">
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <li><%= link_to "Post a Job", companies_path, class: "hover:underline" %></li>
+          <% elsif current_user.companies.any? %>
+            <li><%= link_to "Post a Job",
+                            new_company_job_path(current_user.companies.order(:created_at).first),
+                            class: "hover:underline" %></li>
+          <% else %>
+            <li><%= link_to "Create a Company", new_company_path, class: "hover:underline" %></li>
+          <% end %>
+        <% else %>
+          <li><%= link_to "Post a Job", new_user_session_path, class: "hover:underline" %></li>
+        <% end %>
+        <li><%= link_to "Browse Jobs", jobs_path, class: "hover:underline" %></li>
+        <li><%= link_to "Pricing", (defined?(pricing_path) ? pricing_path : "#"), class: "hover:underline" %></li>
+        <li><%= link_to "How it works", "#company-steps", class: "hover:underline" %></li>
+      </ul>
+    </div>
+
+    <!-- For Job Seekers -->
+    <div>
+      <h3 class="text-sm font-semibold text-slate-900">For Job Seekers</h3>
+      <ul class="mt-3 space-y-2 text-sm text-slate-600">
+        <li><%= link_to "Search Jobs", jobs_path, class: "hover:underline" %></li>
+        <li><%= link_to "Create Profile", (defined?(new_profile_path) ? new_profile_path : "#"), class: "hover:underline" %></li>
+        <li><%= link_to "Career Guidance", "#coming-soon", class: "hover:underline" %></li>
+        <li><%= link_to "Learning (LMS)", "#coming-soon", class: "hover:underline" %></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div>
+      <h3 class="text-sm font-semibold text-slate-900">Company</h3>
+      <ul class="mt-3 space-y-2 text-sm text-slate-600">
+        <li><%= link_to "About", (defined?(about_path) ? about_path : "#"), class: "hover:underline" %></li>
+        <li><%= link_to "Contact", (defined?(contact_path) ? contact_path : "#"), class: "hover:underline" %></li>
+        <li><%= link_to "Privacy", (defined?(privacy_path) ? privacy_path : "#"), class: "hover:underline" %></li>
+        <li><%= link_to "Terms", (defined?(terms_path) ? terms_path : "#"), class: "hover:underline" %></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t">
+    <div class="mx-auto max-w-6xl px-4 py-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-xs text-slate-500">
+        &copy; <%= Time.current.year %> SpecifyX. All rights reserved.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500">
+        <%= link_to "Cookie Settings", "#", class: "hover:underline" %>
+        <%= link_to "Status", "#", class: "hover:underline" %>
+        <%= link_to "Security", "#", class: "hover:underline" %>
+        <%= link_to "Sitemap", "#", class: "hover:underline" %>
+      </div>
+    </div>
+  </div>
+</footer>

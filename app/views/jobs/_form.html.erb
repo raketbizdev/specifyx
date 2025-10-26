@@ -1,0 +1,66 @@
+<%# For new: model is [company, job] so company_id stays in the URL %>
+<% path_model = job.persisted? ? job : [company, job] %>
+
+<%= form_with model: path_model, class: "space-y-5" do |f| %>
+  <% if job.errors.any? %>
+    <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+      <p class="font-medium"><%= pluralize(job.errors.count, "error") %> prevented this job from being saved:</p>
+      <ul class="mt-2 list-disc pl-5">
+        <% job.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, class: "block text-sm font-medium text-slate-700" %>
+    <%= f.text_field :title,
+          required: true,
+          placeholder: "e.g., Senior Ruby on Rails Engineer",
+          class: "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= f.label :employment_type, class: "block text-sm font-medium text-slate-700" %>
+      <%= f.select :employment_type,
+            options_for_select(["Full-time","Part-time","Contract","Internship","Temporary"], job.employment_type),
+            { include_blank: "Select type" },
+            class: "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.label :location, class: "block text-sm font-medium text-slate-700" %>
+      <%= f.text_field :location,
+            placeholder: "e.g., Makati (Hybrid) or Remote (PH)",
+            class: "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :description, class: "block text-sm font-medium text-slate-700" %>
+    <%= f.text_area :description,
+          rows: 10,
+          placeholder: "Role overview, responsibilities, must-haves, nice-to-haves, salary range, how to apply…",
+          class: "mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="flex items-center justify-between gap-3 pt-2">
+    <%= link_to company_path(company),
+        class: "inline-flex items-center gap-1.5 rounded-lg border border-slate-200
+                px-3 py-2 text-sm sm:px-2.5 sm:py-1.5
+                font-medium text-slate-700 hover:bg-slate-50" do %>
+      <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">close</span>
+      <span>Cancel</span>
+    <% end %>
+
+    <button type="submit"
+            class="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600
+                   px-4 py-2 text-sm sm:px-2.5 sm:py-1.5
+                   font-semibold text-white hover:bg-indigo-700">
+      <span class="material-symbols-rounded text-base sm:text-sm" aria-hidden="true">work</span>
+      <span><%= job.persisted? ? "Save Job" : "Post Job" %></span>
+    </button>
+  </div>
+<% end %>

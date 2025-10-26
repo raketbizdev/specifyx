@@ -1,0 +1,13 @@
+<%# locals: f:, field:, label: (optional), container_class: (optional), input_html: {} %>
+<%
+  label_text      ||= field.to_s.humanize
+  container_class ||= ""
+%>
+<div class="mb-4 <%= container_class %>">
+  <label class="inline-flex items-center gap-2">
+    <%= f.check_box field,
+          { class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" }
+            .merge(defined?(input_html) && input_html.is_a?(Hash) ? input_html : {}) %>
+    <span class="text-sm text-gray-700"><%= label || label_text %></span>
+  </label>
+</div>
