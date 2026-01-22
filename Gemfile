@@ -57,4 +57,4 @@ gem "devise", "~> 4.9"
 gem "friendly_id", "~> 5.5"
 gem "annotate", "~> 3.2"
 
-gem "faker", "~> 3.5", :groups => [:development, :test]
+gem "faker", "~> 3.6", :groups => [:development, :test]
