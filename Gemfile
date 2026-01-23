@@ -53,7 +53,7 @@ group :development do
 end
 
 
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 gem "friendly_id", "~> 5.5"
 gem "annotate", "~> 3.2"
 
